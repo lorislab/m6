@@ -74,7 +74,9 @@ public abstract class AbstractMessageListener<T extends Message> implements Mess
 
             if (tmp.activationConfig().length > 0) {
                 for (ActivationConfigProperty acp : tmp.activationConfig()) {
-                    log.info("ActivationConfigProperty {}:{}", acp.propertyName(), acp.propertyValue());
+                    if (log.isDebugEnabled()) {
+                        log.debug("ActivationConfigProperty {}:{}", acp.propertyName(), acp.propertyValue());
+                    }
                     String value = acp.propertyValue();
                     if (!value.isEmpty()) {
                         switch (acp.propertyName()) {
@@ -118,8 +120,9 @@ public abstract class AbstractMessageListener<T extends Message> implements Mess
         }
 
         try {
-            log.info("Execute message {}", input);
-
+            if (log.isDebugEnabled()) {
+                log.debug("Execute message {}", input);
+            }
             // create and execute the message
             T output = createMessage(getContext(), input);
             executeMessage(input, output);
